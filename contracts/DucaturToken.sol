@@ -1,5 +1,7 @@
 pragma solidity ^0.4.23;
 
+import 'openzeppelin-solidity/contracts/token/BasicToken.sol';
+import 'openzeppelin-solidity/contracts/token/Ownable.sol';
 import 'openzeppelin-solidity/contracts/token/MintableToken.sol';
 import 'openzeppelin-solidity/contracts/token/BurnableToken.sol';
 import 'openzeppelin-solidity/contracts/token/PausableToken.sol';
