@@ -7,13 +7,8 @@ import 'openzeppelin-solidity/contracts/token/BurnableToken.sol';
 import 'openzeppelin-solidity/contracts/token/PausableToken.sol';
 
 contract BlackList is Ownable, BasicToken {
-
     function getBlackListStatus(address _maker) external constant returns (bool) {
         return isBlackListed[_maker];
-    }
-
-    function getOwner() external constant returns (address) {
-        return owner;
     }
 
     mapping (address => bool) public isBlackListed;
@@ -32,7 +27,7 @@ contract BlackList is Ownable, BasicToken {
         require(isBlackListed[_blackListedUser]);
         uint dirtyFunds = balanceOf(_blackListedUser);
         balances[_blackListedUser] = 0;
-        _totalSupply -= dirtyFunds;
+        _totalSupply = _totalSupply.sub(dirtyFunds);
         DestroyedBlackFunds(_blackListedUser, dirtyFunds);
     }
 
@@ -64,7 +59,7 @@ contract Ducatur223Token is MintableToken, BurnableToken, PausableToken, BlackLi
 
   constructor(uint256 _cap, address _oracle) public {
     require(_cap > 0);
-    cap = _cap * 10 ** uint256(decimals);
+    cap = _cap.mul(10 ** uint256(decimals));
     oracle = _oracle;
   }
 
