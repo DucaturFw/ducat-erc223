@@ -7,13 +7,8 @@ import 'openzeppelin-solidity/contracts/token/BurnableToken.sol';
 import 'openzeppelin-solidity/contracts/token/PausableToken.sol';
 
 contract BlackList is Ownable, BasicToken {
-
     function getBlackListStatus(address _maker) external constant returns (bool) {
         return isBlackListed[_maker];
-    }
-
-    function getOwner() external constant returns (address) {
-        return owner;
     }
 
     mapping (address => bool) public isBlackListed;
