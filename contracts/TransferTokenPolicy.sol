@@ -3,12 +3,8 @@ import "./SmartToken.sol";
 
 
 contract TransferTokenPolicy is SmartToken {
-  function _allowTransfer(address, address, uint256) internal returns(bool) {
-    return true;
-  }
-
   modifier isTransferAllowed(address _from, address _to, uint256 _value) {
-    require(_allowTransfer(_from, _to, _value));
+    require(_allowTransfer(_from, _to, _value), "Transfer isn't allowed");
     _;
   }
 
@@ -28,7 +24,12 @@ contract TransferTokenPolicy is SmartToken {
     bytes _data
   ) public isTransferAllowed(_from, _to, _value) returns (bool)
   {
-    return super.transferFrom(_from, _to, _value, _data);
+    return super.transferFrom(
+      _from,
+      _to,
+      _value,
+      _data
+    );
   }
 
   function transfer(address _to, uint256 _value, bytes _data) public isTransferAllowed(msg.sender, _to, _value) returns (bool success) {
@@ -41,5 +42,9 @@ contract TransferTokenPolicy is SmartToken {
 
   function burn(uint256 _amount) public isTransferAllowed(msg.sender, address(0x0), _amount) {
     super.burn(_amount);
+  }
+
+  function _allowTransfer(address, address, uint256) internal returns(bool) {
+    return true;
   }
 }
