@@ -1,10 +1,10 @@
 pragma solidity ^0.4.23;
 
-import 'openzeppelin-solidity/contracts/token/BasicToken.sol';
-import 'openzeppelin-solidity/contracts/token/Ownable.sol';
-import 'openzeppelin-solidity/contracts/token/MintableToken.sol';
-import 'openzeppelin-solidity/contracts/token/BurnableToken.sol';
-import 'openzeppelin-solidity/contracts/token/PausableToken.sol';
+import 'openzeppelin-solidity/contracts/token/ERC20/BasicToken.sol';
+import 'openzeppelin-solidity/contracts/token/ERC20/Ownable.sol';
+import 'openzeppelin-solidity/contracts/token/ERC20/MintableToken.sol';
+import 'openzeppelin-solidity/contracts/token/ERC20/BurnableToken.sol';
+import 'openzeppelin-solidity/contracts/token/ERC20/PausableToken.sol';
 
 contract BlackList is Ownable, BasicToken {
     function getBlackListStatus(address _maker) external constant returns (bool) {
