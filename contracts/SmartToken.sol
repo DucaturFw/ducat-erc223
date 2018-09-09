@@ -91,7 +91,7 @@ contract SmartToken is BurnableToken, CappedToken, PausableToken {
   }
 
   function moveTokens(address _from, address _to, uint256 _value) internal returns (bool success) {
-    require(balanceOf(_from) < _value, "Balance isn't enough");
+    require(balanceOf(_from) >= _value, "Balance isn't enough");
     balances[_from] = balanceOf(_from).sub(_value);
     balances[_to] = balanceOf(_to).add(_value);
 
