@@ -2,7 +2,7 @@ pragma solidity ^0.4.24;
 
 import "openzeppelin-solidity/contracts/token/ERC20/BurnableToken.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/PausableToken.sol";
-import "openzeppelin-solidity/contracts/token/ERC20/MintableToken.sol";
+import "openzeppelin-solidity/contracts/token/ERC20/CappedToken.sol";
 
 interface IERC223Receiver {
   function tokenFallback(address _from, uint256 _value, bytes _data) external;
@@ -10,7 +10,9 @@ interface IERC223Receiver {
 
 /// @title Smart token implementation compatible with ERC20, ERC223, Mintable, Burnable and Pausable tokens
 /// @author Aler Denisov <aler.zampillo@gmail.com>
-contract SmartToken is BurnableToken, MintableToken, PausableToken {
+contract SmartToken is BurnableToken, CappedToken, PausableToken {
+  constructor(uint256 _cap) public CappedToken(_cap) {}
+
   event Transfer(address indexed from, address indexed to, uint256 value, bytes data);
 
   function transferFrom(
