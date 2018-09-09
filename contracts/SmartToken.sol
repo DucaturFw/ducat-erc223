@@ -8,6 +8,7 @@ interface IERC223Receiver {
   function tokenFallback(address _from, uint256 _value, bytes _data) external;
 }
 
+
 /// @title Smart token implementation compatible with ERC20, ERC223, Mintable, Burnable and Pausable tokens
 /// @author Aler Denisov <aler.zampillo@gmail.com>
 contract SmartToken is BurnableToken, CappedToken, PausableToken {
@@ -26,7 +27,8 @@ contract SmartToken is BurnableToken, CappedToken, PausableToken {
       _from, 
       _to, 
       _value, 
-      empty); // solium-disable-line indentation
+      empty
+    );
   }
 
   function transferFrom(
@@ -36,20 +38,22 @@ contract SmartToken is BurnableToken, CappedToken, PausableToken {
     bytes _data
   ) public returns (bool)
   {
-    require(_value <= allowed[_from][msg.sender]);
+    require(_value <= allowed[_from][msg.sender], "Used didn't allow sender to interact with balance");
     allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
     if (isContract(_to)) {
       return transferToContract(
         _from, 
         _to, 
         _value, 
-        _data);  // solium-disable-line indentation
+        _data
+      ); 
     } else {
       return transferToAddress(
         _from, 
         _to, 
         _value, 
-        _data); // solium-disable-line indentation
+        _data
+      );
     }
   }
 
@@ -59,13 +63,15 @@ contract SmartToken is BurnableToken, CappedToken, PausableToken {
         msg.sender,
         _to,
         _value,
-        _data); // solium-disable-line indentation
+        _data
+      );
     } else {
       return transferToAddress(
         msg.sender,
         _to,
         _value,
-        _data); // solium-disable-line indentation
+        _data
+      );
     }
   }
 
@@ -80,14 +86,12 @@ contract SmartToken is BurnableToken, CappedToken, PausableToken {
     assembly {
       //retrieve the size of the code on target address, this needs assembly
       length := extcodesize(_addr)
-    }  // solium-disable-line indentation
+    } 
     return (length>0);
   }
 
   function moveTokens(address _from, address _to, uint256 _value) internal returns (bool success) {
-    if (balanceOf(_from) < _value) {
-      revert();
-    }
+    require(balanceOf(_from) < _value, "Balance isn't enough");
     balances[_from] = balanceOf(_from).sub(_value);
     balances[_to] = balanceOf(_to).add(_value);
 
@@ -101,9 +105,14 @@ contract SmartToken is BurnableToken, CappedToken, PausableToken {
     bytes _data
   ) internal returns (bool success) 
   {
-    require(moveTokens(_from, _to, _value));
+    require(moveTokens(_from, _to, _value), "Tokens movement was failed");
     emit Transfer(_from, _to, _value);
-    emit Transfer(_from, _to, _value, _data); // solium-disable-line arg-overflow
+    emit Transfer(
+      _from,
+      _to,
+      _value,
+      _data
+    );
     return true;
   }
   
@@ -115,10 +124,15 @@ contract SmartToken is BurnableToken, CappedToken, PausableToken {
     bytes _data
   ) internal returns (bool success) 
   {
-    require(moveTokens(_from, _to, _value));
+    require(moveTokens(_from, _to, _value), "Tokens movement was failed");
     IERC223Receiver(_to).tokenFallback(_from, _value, _data);
     emit Transfer(_from, _to, _value);
-    emit Transfer(_from, _to, _value, _data); // solium-disable-line arg-overflow
+    emit Transfer(
+      _from,
+      _to,
+      _value,
+      _data
+    );
     return true;
   }
 }
