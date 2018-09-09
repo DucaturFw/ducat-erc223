@@ -44,7 +44,5 @@ contract TransferTokenPolicy is SmartToken {
     super.burn(_amount);
   }
 
-  function _allowTransfer(address, address, uint256) internal returns(bool) {
-    return true;
-  }
+  function _allowTransfer(address, address, uint256) internal returns(bool);
 }
