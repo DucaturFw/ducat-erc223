@@ -2,14 +2,12 @@
 import { sig, sideEvents } from "./utils";
 import "mocha";
 import { assert } from "chai";
-import { AsyncResource } from "async_hooks";
-
-const DATA = Buffer.from("test");
 const {
   assertRevert
 } = require("openzeppelin-solidity/test/helpers/assertRevert");
-
 const DucatToken = artifacts.require("./DucatToken.sol");
+
+const DATA = Buffer.from("test");
 
 contract("Token trasfer policy", ([owner, another, strange]) => {
   let token: any;
