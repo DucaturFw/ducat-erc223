@@ -10,7 +10,7 @@ contract DucatToken is TransferTokenPolicy, SmartMultichainToken, Blacklist, Det
     DetailedERC20(
       "Ducat",
       "DUCAT",
-      uint8(18)
+      uint8(4)
     )
     SmartMultichainToken(
       7 ether * 10 ** 9 // 7 billion
