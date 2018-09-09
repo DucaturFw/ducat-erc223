@@ -1,9 +1,9 @@
 pragma solidity ^0.4.24;
-import "../ERC223Token.sol";
+import "../SmartToken.sol";
 
 /// @title Custom implementation of ERC223 
 /// @author Aler Denisov <aler.zampillo@gmail.com>
-contract ERC223Mock is ERC223Token {
+contract ERC223Mock is SmartToken {
   constructor() public {
     balances[msg.sender] = 1000000 ether;
   }
