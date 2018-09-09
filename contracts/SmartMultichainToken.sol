@@ -39,7 +39,6 @@ contract SmartMultichainToken is SmartToken {
     require(_amount <= allowed[_from][msg.sender]);
     allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_amount);
     _burn(_from, _amount);
-    cap.add(_amount);
     emit BlockchainExchange(msg.sender, _amount, _network, _adr);
   }
 }
