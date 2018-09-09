@@ -15,9 +15,8 @@ contract DucatToken is TransferTokenPolicy, SmartMultichainToken, Blacklist, Det
     )
     SmartMultichainToken(
       7 * 10 ** (9 + precision) // 7 billion with decimals
-    )
-   {
-   }
+    ) {
+  }
 
   function _allowTransfer(address _from, address _to, uint256) internal returns(bool) {
     return !isBlacklisted(_from) && !isBlacklisted(_to);
