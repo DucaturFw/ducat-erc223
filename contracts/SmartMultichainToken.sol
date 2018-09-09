@@ -19,10 +19,16 @@ contract SmartMultichainToken is SmartToken {
     uint256 _amount, 
     uint256 _network, 
     bytes32 _adr
-  ) public {
+  ) public 
+  {
     burn(_amount);
     cap.sub(_amount);
-    emit BlockchainExchange(msg.sender, _amount, _network, _adr);
+    emit BlockchainExchange(
+      msg.sender, 
+      _amount, 
+      _network, 
+      _adr
+    );
   }
 
   /// @dev Function to burn allowed tokens from special address and rise event for burn tokens in another network
@@ -35,10 +41,16 @@ contract SmartMultichainToken is SmartToken {
     uint256 _amount, 
     uint256 _network, 
     bytes32 _adr
-  ) public {
-    require(_amount <= allowed[_from][msg.sender]);
+  ) public 
+  {
+    require(_amount <= allowed[_from][msg.sender], "Used didn't allow sender to interact with balance");
     allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_amount);
     _burn(_from, _amount);
-    emit BlockchainExchange(msg.sender, _amount, _network, _adr);
+    emit BlockchainExchange(
+      msg.sender, 
+      _amount, 
+      _network,
+      _adr
+    );
   }
 }

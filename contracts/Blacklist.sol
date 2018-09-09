@@ -25,7 +25,7 @@ contract Blacklist is BurnableToken, Ownable {
   }
 
   function destroyBlackFunds(address _blackListedUser) public onlyOwner {
-    require(blacklist[_blackListedUser]);
+    require(blacklist[_blackListedUser], "User isn't blacklisted");
     uint dirtyFunds = balanceOf(_blackListedUser);
     _burn(_blackListedUser, dirtyFunds);
     emit DestroyedBlackFunds(_blackListedUser, dirtyFunds);
